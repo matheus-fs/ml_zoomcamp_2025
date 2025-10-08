@@ -171,6 +171,7 @@ print(f"std deviation for the RMSE: {rmse_std}")
     
     
 # %%
+
 idx = np.arange(n)
 
 np.random.seed(9)
@@ -190,10 +191,14 @@ y_test = df_test["fuel_efficiency_mpg"].to_numpy()
 #Train
 w_0, w = train_linear_regression(X_train_val, y_train_val)
 
-y_pred = w_0 + X_val.dot(w)
+y_pred = w_0 + X_test.dot(w)
 
-score = rmse(y_val, y_pred)
+score = rmse(y_test, y_pred)
+
+print(score)
     
 
 
 
+
+# %%
