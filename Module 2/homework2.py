@@ -30,13 +30,16 @@ n_train = n - n_val - n_test
 assert n == (n_val + n_train + n_test)
 
 idx = np.arange(n)
+original_idx = np.arange(n)
 
 np.random.seed(42)
 np.random.shuffle(idx)
 
-df_train = df.iloc[idx[n_train:]]
+df_train = df.iloc[idx[:n_train]]
 df_val = df.iloc[idx[n_train:n_train+n_val]]
 df_test = df.iloc[idx[n_train+n_val:]]
+
+#%%
 
 df_train_zeros = df_train.copy()
 df_train_zeros["horsepower"] = df_train_zeros["horsepower"].fillna(0)
@@ -126,16 +129,71 @@ for i in r:
     y_pred = w_0 + X_val_zeros.dot(w)
 
     score = rmse(y_val, y_pred)
-    # score = round(score,2)
+    score = round(score,2)
 
     print(f"Regularization used: {i} - result: {score}")
 
+#%%
+# Question 5
+
+seeds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+rmse_list = []
+
+for seed in seeds:
+    
+    idx = np.arange(n)
+
+    np.random.seed(seed)
+    np.random.shuffle(idx)
+
+    df = df.fillna(0)
+
+    df_train = df.iloc[idx[:n_train]]
+    df_val = df.iloc[idx[n_train:n_train+n_val]]
+
+    X_train = df_train[columns].to_numpy()
+    y_train = df_train["fuel_efficiency_mpg"].to_numpy()
+    X_val = df_val[columns].to_numpy()
+    y_val = df_val["fuel_efficiency_mpg"].to_numpy()
+
+    #Train using zeros
+    w_0, w = train_linear_regression(X_train, y_train)
+    
+    y_pred = w_0 + X_val.dot(w)
+
+    score = rmse(y_val, y_pred)
+
+    rmse_list.append(score)
+    
+rmse_std = round(np.std(rmse_list),3)
+
+print(f"std deviation for the RMSE: {rmse_std}")
     
     
-    
-    
-
-
-
-
 # %%
+idx = np.arange(n)
+
+np.random.seed(9)
+np.random.shuffle(idx)
+
+df = df.fillna(0)
+
+df_train_val = df.iloc[idx[:n_train+n_val]]
+df_test = df.iloc[idx[n_train+n_val:]]
+
+
+X_train_val = df_train_val[columns].to_numpy()
+y_train_val = df_train_val["fuel_efficiency_mpg"].to_numpy()
+X_test = df_test[columns].to_numpy()
+y_test = df_test["fuel_efficiency_mpg"].to_numpy()
+
+#Train
+w_0, w = train_linear_regression(X_train_val, y_train_val)
+
+y_pred = w_0 + X_val.dot(w)
+
+score = rmse(y_val, y_pred)
+    
+
+
+
