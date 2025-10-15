@@ -182,7 +182,6 @@ df = df.fillna(0)
 df_train_val = df.iloc[idx[:n_train+n_val]]
 df_test = df.iloc[idx[n_train+n_val:]]
 
-
 X_train_val = df_train_val[columns].to_numpy()
 y_train_val = df_train_val["fuel_efficiency_mpg"].to_numpy()
 X_test = df_test[columns].to_numpy()
@@ -197,8 +196,4 @@ score = rmse(y_test, y_pred)
 
 print(score)
     
-
-
-
-
 # %%

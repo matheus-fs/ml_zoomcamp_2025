@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-url = "https://www.kaggle.com/datasets/juanmerinobermejo/laptops-price-dataset"
+url = "https://raw.githubusercontent.com/alexeygrigorev/datasets/master/laptops.csv"
 df = pd.read_csv(url)
 
 df.shape[0]
